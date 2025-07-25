@@ -1,7 +1,8 @@
 // 퀘스트 데이터 정의 (물물교환)
 let questData = [
     { type: 'weekly', location: '반호르', npc: '아이데른', need: '농어 매운탕', needCount: 1, reward: '은합금괴', rewardCount: 10 },
-    { type: 'weekly', location: '티르코네일', npc: '엔델리온', need: '특제 빵', needCount: 10, reward: '성수', rewardCount: 10 },
+    { type: 'weekly', location: '콜헨', npc: '킬리언', need: '3만 골드', needCount: 1, reward: '깔끔 버섯 진액', rewardCount: 30 },
+    { type: 'accountWeekly', location: '티르코네일', npc: '엔델리온', need: '특제빵', needCount: 10, reward: '성수', rewardCount: 10 },
     { type: 'daily', location: '티르코네일', npc: '퍼거스', need: '강철괴', needCount: 8, reward: '합금강괴', rewardCount: 4 },
     { type: 'daily', location: '티르코네일', npc: '케이틴', need: '우유', needCount: 10, reward: '특제 빵', rewardCount: 3 },
     { type: 'daily', location: '티르코네일', npc: '메이븐', need: '특제 빵', needCount: 1, reward: '성수', rewardCount: 1 },
@@ -11,20 +12,23 @@ let questData = [
     { type: 'daily', location: '던바튼', npc: '네리스', need: '동광석', needCount: 10, reward: '상급 생가죽', rewardCount: 10 },
     { type: 'daily', location: '던바튼', npc: '네리스', need: '합금강괴', needCount: 8, reward: '특수강괴', rewardCount: 4 },
     { type: 'daily', location: '던바튼', npc: '제이미', need: '사과 생크림 케이크', needCount: 1, reward: '상급 옷감+', rewardCount: 4 },
-    { type: 'daily', location: '던바튼', npc: '제롬', need: '크림소스 스테이크', needCount: 1, reward: '상급 실크+', rewardCount: 4 },
-    { type: 'accountDaily', location: '켈라베이스캠프', npc: '로웬', need: '마나 크리스탈', needCount: 5, reward: '경험치 포션', rewardCount: 1 },
-    { type: 'accountWeekly', location: '던바튼', npc: '델렌', need: '고급 원단', needCount: 3, reward: '마법 가루', rewardCount: 10 }
+    { type: 'daily', location: '던바튼', npc: '제롬', need: '크림소스 스테이크', needCount: 1, reward: '상급 실크+', rewardCount: 4 }
 ];
 
 // 퀘스트 데이터 정의 (일반 퀘스트)
 let questManagementData = [
+    { type: 'accountDaily', name: '캐시샵', count: 1, category: '의상 / 보석상자' },
+    { type: 'daily', name: '던전', count: 1, category: '일일 던전' },
+    { type: 'daily', name: '결계', count: 2, category: '일일' },
+    { type: 'daily', name: '일반 / 심층 구멍', count: 3, category: '일일' },
+    { type: 'daily', name: '어비스 구멍', count: 3, category: '일일' },
+    { type: 'daily', name: '망령의 탑', count: 5, category: '일일' },
     { type: 'weekly', name: '필드보스', count: 3, category: '전투' },
     { type: 'weekly', name: '어비스 던전', count: 3, category: '던전' },
     { type: 'weekly', name: '레이드', count: 2, category: '레이드' },
-    { type: 'daily', name: '결계', count: 2, category: '일일' },
-    { type: 'daily', name: '구멍', count: 3, category: '일일' },
-    { type: 'accountDaily', name: '일일보상', count: 1, category: '계정' },
-    { type: 'accountWeekly', name: '주간미션', count: 7, category: '계정' }
+    { type: 'weekly', name: '케이틴', count: 1, category: '재료구매' },
+    { type: 'weekly', name: '글리니스', count: 1, category: '재료구매' },
+    { type: 'weekly', name: '제니퍼', count: 1, category: '재료구매' },
 ];
 
 // 재료 데이터 정의
