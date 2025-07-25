@@ -1,7 +1,3 @@
-body {
-  font-family: 'Pretendard Variable', sans-serif;
-}
-
 :root {
     --bg-primary: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
     --bg-secondary: #ffffff;
@@ -123,7 +119,7 @@ html.theme-transitioning td {
 }
 
 body {
-    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
+    font-family: 'Pretendard Variable', -apple-system, BlinkMacSystemFont, 'Malgun Gothic', '맑은 고딕', sans-serif;
     background: var(--bg-primary);
     margin: 0;
     padding: 20px;
