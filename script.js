@@ -17,18 +17,18 @@ let questData = [
 
 // 퀘스트 데이터 정의 (일반 퀘스트)
 let questManagementData = [
-    { type: 'accountDaily', name: '캐시샵', count: 1, category: '의상 / 보석상자' },
-    { type: 'daily', name: '던전', count: 1, category: '일일 던전' },
-    { type: 'daily', name: '결계', count: 2, category: '일일' },
-    { type: 'daily', name: '일반 / 심층 구멍', count: 3, category: '일일' },
-    { type: 'daily', name: '어비스 구멍', count: 3, category: '일일' },
-    { type: 'daily', name: '망령의 탑', count: 5, category: '일일' },
     { type: 'weekly', name: '필드보스', count: 3, category: '전투' },
     { type: 'weekly', name: '어비스 던전', count: 3, category: '던전' },
     { type: 'weekly', name: '레이드', count: 2, category: '레이드' },
     { type: 'weekly', name: '케이틴', count: 1, category: '재료구매' },
     { type: 'weekly', name: '글리니스', count: 1, category: '재료구매' },
     { type: 'weekly', name: '제니퍼', count: 1, category: '재료구매' },
+    { type: 'accountDaily', name: '캐시샵', count: 1, category: '의상 / 보석상자' },
+    { type: 'daily', name: '던전', count: 1, category: '일일 던전' },
+    { type: 'daily', name: '결계', count: 2, category: '일일' },
+    { type: 'daily', name: '일반 / 심층 구멍', count: 3, category: '일일' },
+    { type: 'daily', name: '어비스 구멍', count: 3, category: '일일' },
+    { type: 'daily', name: '망령의 탑', count: 5, category: '일일' }
 ];
 
 // 재료 데이터 정의
