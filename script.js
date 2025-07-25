@@ -1,3 +1,40 @@
+// 로컬 스토리지 데이터 버전
+const DEFAULT_DATA_VERSION = '1.0.0';
+
+function checkAndPromptDefaultDataReset() {
+    const currentVersion = localStorage.getItem('mabinogi_default_data_version');
+    const hasAskedReset = localStorage.getItem('mabinogi_asked_default_reset');
+    
+    // 버전이 다르거나 한 번도 물어본 적이 없는 경우
+    if (currentVersion !== DEFAULT_DATA_VERSION || !hasAskedReset) {
+        const isFirstVisit = !localStorage.getItem('mabinogi_characters');
+        
+        let message;
+        if (isFirstVisit) {
+            message = `기본 퀘스트 데이터를 로드하시겠습니까?\n- 물물교환 퀘스트\n- 일반 퀘스트\n- 기본 재료 목록\n\n'취소'를 선택하면 빈 상태로 시작할 수 있습니다.`;
+        } else {
+            message = `기본 데이터가 업데이트되었습니다!\n\n새로운 기본 퀘스트 데이터로 초기화하시겠습니까?\n\n⚠️ 주의: 기존 캐릭터 진행상황은 유지되지만,\n커스텀으로 추가하신 퀘스트/재료는 삭제됩니다.\n\n'취소'를 선택하면 기존 설정을 그대로 유지합니다.`;
+        }
+        
+        const shouldReset = confirm(message);
+        
+        if (shouldReset) {
+            // 기존 데이터 초기화 (캐릭터 데이터는 보존)
+            localStorage.removeItem('mabinogi_quest_data');
+            localStorage.removeItem('mabinogi_quest_management_data');
+            localStorage.removeItem('mabinogi_material_data');
+        }
+        
+        // 버전 업데이트 및 물어본 기록 저장
+        localStorage.setItem('mabinogi_default_data_version', DEFAULT_DATA_VERSION);
+        localStorage.setItem('mabinogi_asked_default_reset', 'true');
+        
+        return shouldReset;
+    }
+    
+    return false;
+}
+
 // 퀘스트 데이터 정의 (물물교환)
 let questData = [
     { type: 'weekly', location: '반호르', npc: '아이데른', need: '농어 매운탕', needCount: 1, reward: '은합금괴', rewardCount: 10 },
@@ -2890,6 +2927,8 @@ function initializeThemeSystem() {
 // 초기화 함수
 document.addEventListener('DOMContentLoaded', function () {
     console.log('페이지 로드 시작');
+
+    checkAndPromptDefaultDataReset();
 
     //requestNotificationPermission();
     checkAccountDataReset();
