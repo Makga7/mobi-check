@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="pageTitle">모비 췍</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <h1>🎮 모비 췍!!!</h1>
+
+    <div class="top-controls">
+        <div class="character-management">
+            <div class="add-character">
+                <input type="text" id="newCharName" placeholder="캐릭터명 입력" maxlength="20">
+                <button class="btn btn-primary" onclick="addCharacter()">➕ 추가</button>
+            </div>
+            <div class="data-controls">
+                <button class="btn btn-secondary" onclick="exportData()" title="데이터 내보내기">📁</button>
+                <label class="btn btn-secondary" for="importFile" title="데이터 가져오기">📂</label>
+                <input type="file" id="importFile" accept=".json" style="display: none;" onchange="importData(event)">
+            </div>
+            <button class="btn btn-secondary theme-toggle" onclick="toggleTheme()" title="다크모드 전환" type="button">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="stats-display" id="statsDisplay">
+        <div class="stat-card">
+            <h4>전체 완료율</h4>
+            <div class="value" id="totalCompletion">0%</div>
+        </div>
+        <div class="stat-card">
+            <h4>일간 완료율</h4>
+            <div class="value" id="dailyCompletion">0%</div>
+        </div>
+        <div class="stat-card">
+            <h4>주간 완료율</h4>
+            <div class="value" id="weeklyCompletion">0%</div>
+        </div>
+        <div class="stat-card">
+            <h4>활성 캐릭터</h4>
+            <div class="value" id="activeCharacters">0</div>
+        </div>
+    </div>
+
+    <div class="reset-timer">
+        <div class="timer-card">
+            <h4>🔄 일간 리셋까지</h4>
+            <div class="time" id="dailyTimer">--:--:--</div>
+        </div>
+        <div class="timer-card">
+            <h4>📅 주간 리셋까지</h4>
+            <div class="time" id="weeklyTimer">-- 일 --:--:--</div>
+        </div>
+    </div>
+
+    <div class="tabs" id="tabContainer">
+        <button class="tab-btn overview-tab" data-target="#tradeManagement">📦 물물교환 관리</button>
+        <button class="tab-btn overview-tab" data-target="#questManagement">⚔️ 퀘스트 관리</button>
+        <button class="tab-btn overview-tab" data-target="#materialManagement">🧰 재료 관리</button>
+    </div>
+
+    <div class="character-filters-container">
+        <div class="character-tabs" id="characterTabContainer">
+            <button class="tab-btn overview-tab active" data-target="#allView">📋 전체 보기</button>
+            <!-- 캐릭터 탭 동적 추가 -->
+        </div>
+
+        <div class="filters-stats">
+            <div class="filter-group">
+                <label>타입:</label>
+                <select id="typeFilter" onchange="applyFilters()">
+                    <option value="all">전체</option>
+                    <option value="daily">일간</option>
+                    <option value="weekly">주간</option>
+                    <option value="accountDaily">계정일간</option>
+                    <option value="accountWeekly">계정주간</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>상태:</label>
+                <select id="statusFilter" onchange="applyFilters()">
+                    <option value="all">전체</option>
+                    <option value="completed">완료</option>
+                    <option value="incomplete">미완료</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>지역:</label>
+                <select id="locationFilter" onchange="applyFilters()">
+                    <option value="all">전체</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>정렬:</label>
+                <select id="sortFilter" onchange="applyFilters()">
+                    <option value="default">기본순</option>
+                    <option value="location">지역순</option>
+                    <option value="reward">보상순</option>
+                    <option value="type">타입순</option>
+                </select>
+            </div>
+            <div class="layout-controls">
+                <label>레이아웃:</label>
+                <button class="layout-btn" onclick="changeLayout(1)" title="1열">1</button>
+                <button class="layout-btn active" onclick="changeLayout(2)" title="2열">2</button>
+                <button class="layout-btn" onclick="changeLayout(3)" title="3열">3</button>
+                <button class="layout-btn" onclick="changeLayout(4)" title="4열">4</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 전체보기 -->
+    <div class="all-characters active" id="allView">
+        <div class="empty-state" id="emptyState">
+            <h3>등록된 캐릭터가 없습니다</h3>
+            <p>위에서 캐릭터를 추가해보세요!</p>
+        </div>
+    </div>
+
+    <!-- 물물교환 관리 -->
+    <div class="all-characters" id="tradeManagement">
+        <div class="quest-management">
+            <h3>📦 물물교환 추가/수정</h3>
+            <div class="add-quest-form">
+                <select id="questType">
+                    <option value="daily">일간</option>
+                    <option value="weekly">주간</option>
+                    <option value="accountDaily">계정일간</option>
+                    <option value="accountWeekly">계정주간</option>
+                </select>
+                <input type="text" id="questLocation" placeholder="위치 (예: 티르코네일)" maxlength="20">
+                <input type="text" id="questNpc" placeholder="NPC명 (예: 퍼거스)" maxlength="20">
+                <input type="text" id="questNeed" placeholder="필요아이템 (예: 강철괴)" maxlength="30">
+                <input type="number" id="questNeedCount" placeholder="필요수량" min="1" max="9999">
+                <input type="text" id="questReward" placeholder="보상아이템 (예: 합금강괴)" maxlength="30">
+                <input type="number" id="questRewardCount" placeholder="보상수량" min="1" max="9999">
+                <button class="btn btn-primary" onclick="addQuest()" id="addQuestBtn">➕ 퀘스트 추가</button>
+            </div>
+
+            <h3 style="margin-top: 30px;">📋 현재 물물교환 목록</h3>
+            <div class="quest-list" id="questList">
+                <!-- 물물교환 목록 표시 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 퀘스트 관리 -->
+    <div class="all-characters" id="questManagement">
+        <div class="quest-management">
+            <h3>⚔️ 퀘스트 추가/수정</h3>
+            <div class="add-quest-form">
+                <select id="questMgmtType">
+                    <option value="daily">일간</option>
+                    <option value="weekly">주간</option>
+                    <option value="accountDaily">계정일간</option>
+                    <option value="accountWeekly">계정주간</option>
+                </select>
+                <input type="text" id="questMgmtName" placeholder="퀘스트명 (예: 필드보스)" maxlength="30">
+                <input type="number" id="questMgmtCount" placeholder="횟수" min="1" max="99">
+                <input type="text" id="questMgmtCategory" placeholder="카테고리 (예: 전투)" maxlength="20">
+                <button class="btn btn-primary" onclick="addQuestManagement()" id="addQuestMgmtBtn">➕ 퀘스트 추가</button>
+            </div>
+
+            <h3 style="margin-top: 30px;">📋 현재 퀘스트 목록</h3>
+            <div class="quest-list" id="questMgmtList">
+                <!-- 퀘스트 목록 표시 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 재료 관리 -->
+    <div class="all-characters" id="materialManagement">
+        <div class="quest-management">
+            <h3>🧰 재료 추가/수정</h3>
+            <div class="add-quest-form material-form">
+                <input type="text" id="materialName" placeholder="재료명 (예: 강철괴)" maxlength="30">
+                <button class="btn btn-primary" onclick="addMaterial()" id="addMaterialBtn">➕ 재료 추가</button>
+            </div>
+
+            <h3 style="margin-top: 30px;">📋 현재 재료 목록</h3>
+            <div class="quest-list" id="materialList">
+                <!-- 재료 목록 표시 -->
+            </div>
+        </div>
+    </div>
+
+    <div class="save-status" id="saveStatus">저장됨</div>
+    <div class="made-by">made by<br>내멋대로막가(데이안)</div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
